@@ -4,13 +4,28 @@
 
 class GameManager
 {
+	enum stanGry { Gra = 1, Pass = 0, Niegra = -1 };
+	Table stol;
+
+	struct Gracz {
+		Player player;
+		int money;
+		std::array<Card, 2> karty;
+		stanGry stan;
+	};
+
+	void zmienWlasnosci(int index, int odzywka);
 
 	int begginer_index; // index typa ktory ma zaczynac dana licytacje;
-	std::vector<Player, std::vector<int, std::array<Card, 2>>> playerlist; //gracz, hajs, jego karty;
-
+	std::vector<Gracz> playerList; //gracz, hajs, jego karty;
 public:
-	GameManager( std::vector<Player,std::vector<int,std::array<Card,2>>> _playerList );
-	void licytacja();
+	GameManager( std::vector<Gracz> _playerList );
+	void rozdanie(); //jedna runda
+	void play(); //ogolna metoda grajaca
+	void runda( int zaczyna );
+	int grajacych();
+	Player whoWon();
+	void wybierzZaczynajacego();
 
 	virtual ~GameManager();
 };
