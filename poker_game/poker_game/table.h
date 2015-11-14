@@ -11,7 +11,7 @@ protected:
 		Card card2;
 	};
 	std::vector<Card> cardsOnTable;
-	std::vector<Player> playersInGame;
+	std::vector<Player,std::vector<player_cards,int>> playersInGame; //player, jeo karty, hajsy w licytacji
 public:
 	Table();
 	virtual ~Table();
