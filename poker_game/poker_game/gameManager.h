@@ -12,6 +12,7 @@ class GameManager
 		int money;
 		std::array<Card, 2> karty;
 		stanGry stan;
+		int wygrane = 0;
 	};
 
 	void zmienWlasnosci(int index, int odzywka);

@@ -10,12 +10,16 @@ public:
 		Card card1;
 		Card card2;
 	};
+
 	int bank; //ile piniendzy na stole doslownie
 	int pool; //nie ile hajsu ale na ile licytowac
+	int minpool;
 	std::vector<Card> cardsOnTable;
-	std::vector<Player,std::vector<player_cards,int>> playersInGame; //player, jeo karty, hajsy w licytacji
+	
+	void reset();
 
 	Table();
 	virtual ~Table();
 };
 
+//std::vector<Player, std::vector<player_cards, int>> playersInGame; //player, jeo karty, hajsy w licytacji

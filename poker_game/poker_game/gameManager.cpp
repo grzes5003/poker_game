@@ -2,7 +2,7 @@
 
 
 
-void GameManager::zmienWlasnosci(int index, int odzywka ) {
+void GameManager::zmienWlasnosci(int index, int odzywka ) { //modyfikuje wartosci 
 	if( odzywka == -1 )
 		playerList.at( index ).stan = Pass;
 	else if( odzywka == 0 ) {
@@ -45,8 +45,11 @@ void GameManager::play() {
 void GameManager::runda( int zaczyna ) {
 	int przejscie = 0;
 	if( stol.cardsOnTable.size() == 0 && stol.pool == 0 ) {
-		zmienWlasnosci( zaczyna , playerList.at( zaczyna ).player.odzywka( stol ) );
+		zmienWlasnosci( zaczyna, playerList.at( zaczyna ).player.odzywka( stol ) );
 		zaczyna++;
+	}
+	else if( stol.cardsOnTable.size() == 0 && stol.pool != 0 ) {
+		zmienWlasnosci( zaczyna, playerList.at( zaczyna ).player.odzywka( stol ) );
 	}
 }
 

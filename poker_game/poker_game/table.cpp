@@ -2,6 +2,9 @@
 
 
 
+void Table::reset() {
+}
+
 Table::Table() {
 }
 
