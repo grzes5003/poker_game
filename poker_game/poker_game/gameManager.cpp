@@ -79,28 +79,17 @@ void GameManager::runda( int zaczyna ) {
 std::vector<GameManager::Gracz> GameManager::grajacych() {
 
 	int indeks_osoby_sprawdzanej = 0;
-	int indeks_ostatniej_osoby_ktora_gra = 0;
-	int liczba_osob_ktora_gra = 0;
-	//int limit_osob_w_tablicy = playerList.size()
+	std::vector<Gracz> players_playing_list;
 	while( playerList.size() > indeks_osoby_sprawdzanej ) {
 		if( playerList.at( indeks_osoby_sprawdzanej ).stan != 1 ) {
-			indeks_ostatniej_osoby_ktora_gra = indeks_osoby_sprawdzanej;
+			players_playing_list.push_back( playerList.at( indeks_osoby_sprawdzanej ) );
 			indeks_osoby_sprawdzanej++;
-			liczba_osob_ktora_gra++;
 		}
 		else {
 			indeks_osoby_sprawdzanej++;
 		}
-
 	}
-
-	if( liczba_osob_ktora_gra - 1 ) {
-		return liczba_osob_ktora_gra;
-	}
-	else {
-		return indeks_ostatniej_osoby_ktora_gra*-1;
-
-	}
+	return players_playing_list;
 }
 
 Player GameManager::whoWon() {
