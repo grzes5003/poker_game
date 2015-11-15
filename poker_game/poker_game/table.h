@@ -6,10 +6,7 @@
 class Table
 {
 public:
-	struct player_cards{
-		Card card1;
-		Card card2;
-	};
+	
 
 	int bank; //ile piniendzy na stole doslownie
 	int pool; //nie ile hajsu ale na ile licytowac

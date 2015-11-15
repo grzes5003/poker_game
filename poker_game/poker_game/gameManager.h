@@ -24,9 +24,10 @@ public:
 	void rozdanie(); //jedna runda
 	void play(); //ogolna metoda grajaca
 	void runda( int zaczyna );
-	int grajacych();
+	std::vector<Gracz> grajacych();
 	Player whoWon();
 	void wybierzZaczynajacego();
+	void rozdajKarty();
 
 	virtual ~GameManager();
 };
