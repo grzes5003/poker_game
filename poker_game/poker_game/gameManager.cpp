@@ -43,32 +43,41 @@ void GameManager::play() {
 }
 
 void GameManager::runda( int zaczyna ) {
+	//BEGGINER_INDEX JEST INDEXEM Z GRAJACYCH!
+	std::vector<Gracz> *pgracze;
 	int zaczyna_pierw = zaczyna;
-	if( stol.cardsOnTable.size() == 0 && stol.pool == 0 ) {
-		zmienWlasnosci( zaczyna, playerList.at( zaczyna ).player.odzywka( stol ) );
+	if( stol.cardsOnTable.size() == 0 && stol.pool == 0 ) { ///pierwszy ziomek licytuje w ciemno
+		zmienWlasnosci( zaczyna, grajacych().at( zaczyna ).player.odzywka( stol ) );
 		zaczyna++;
 	}
-	else if( stol.cardsOnTable.size() == 0 && stol.pool != 0 ) {
-		zmienWlasnosci( zaczyna, playerList.at( zaczyna ).player.odzywka( stol ) );
+	else if( stol.cardsOnTable.size() == 0 && stol.pool != 0 ) { ///drugi ziomek licytuje w ciemno
+		zmienWlasnosci( zaczyna, grajacych().at( zaczyna ).player.odzywka( stol ) );
 		zaczyna++;
+		//
 		rozdajKarty(); //rozdaj gracza
+		//
 		int z = 0; //index tych sprawdzanych od dolu (po przekroczeniu indexow)
-		for( int i = 0; i < grajacych().size() - 2; i++ ) {
-			if( zaczyna < grajacych().size() - 1 ) {
-				zmienWlasnosci( zaczyna, playerList.at( zaczyna ).player.odzywka( stol ) );
-				zaczyna++;
-			}
-			else if( zaczyna >= grajacych().size()-1 ) {
-				zmienWlasnosci( z , playerList.at( z ).player.odzywka( stol ) );
-				z++;
+		if( grajacych().size() > 2 ) {
+			*pgracze = grajacych();
+			for( unsigned int i = 0; i < pgracze->size() - 2; i++ ) { ///reszta licytuje w pol ciemno xd
+				if( zaczyna < pgracze-> size() ) {
+					zmienWlasnosci( zaczyna, pgracze->at( zaczyna ).player.odzywka( stol ) );
+					zaczyna++;
+				}
+				else if( zaczyna >= pgracze->size() - 1 ) {
+					zmienWlasnosci( z, pgracze->at( z ).player.odzywka( stol ) );
+					z++;
+				}
 			}
 		}
 		rozdajKarty(); //rozdaje na stol pierwsze 3
 	}
+	///licytacja ponownie
+	//nwm co jesli jest tlk 2 licytujacych
 	if( stol.cardsOnTable.size() == 3 ) {
-		for( )
-		if( ) {
-
+		*pgracze = grajacych();
+		for( unsigned int i = 0; i < pgracze->size(); i++ ) {
+			zmienWlasnosci( i, pgracze->at( i ).player.odzywka( stol ) );
 		}
 	}
 	if( stol.cardsOnTable.size() == 5 ) {
@@ -92,8 +101,12 @@ std::vector<GameManager::Gracz> GameManager::grajacych() {
 	return players_playing_list;
 }
 
-Player GameManager::whoWon() {
-	return Player();
+GameManager::Gracz* GameManager::whoWon() {
+	struct Kandydat {
+		Gracz* gracz;
+		int score;
+	};
+	std::vector<Kandydat> kandydat_tab;
 }
 
 void GameManager::wybierzZaczynajacego() {

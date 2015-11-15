@@ -25,8 +25,8 @@ public:
 	void play(); //ogolna metoda grajaca
 	void runda( int zaczyna );
 	std::vector<Gracz> grajacych();
-	Player whoWon();
-	void wybierzZaczynajacego();
+	Gracz *whoWon();
+	void wybierzZaczynajacego(); //wybierz z grajacych!!!
 	void rozdajKarty();
 
 	virtual ~GameManager();

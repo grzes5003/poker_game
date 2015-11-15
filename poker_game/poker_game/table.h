@@ -10,7 +10,7 @@ public:
 
 	int bank; //ile piniendzy na stole doslownie
 	int pool; //nie ile hajsu ale na ile licytowac
-	int minpool;
+	int minpool; //minimalna kwota licytacji
 	std::vector<Card> cardsOnTable;
 	
 	void reset();
