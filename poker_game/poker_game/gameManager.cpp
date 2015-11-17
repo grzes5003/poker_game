@@ -67,6 +67,12 @@ GameManager::GameManager( std::vector<Gracz> _playerList ) : playerList(_playerL
 void GameManager::rozdanie() {
 	//int numerPrzejscia = 0; //ile bylo przeprowadzonych przejsc - wskazuje czy trza dodac nowe karty
 	
+	for( int i = 0; i<100000; ++i ) {
+		int index1 = rand() % cardsList.size();
+		int index2 = rand() % cardsList.size();
+		std::swap( cardsList.at(index1), cardsList.at(index2) );
+	}
+
 	while( grajacych(0).size() > 1 ) {
 		runda( begginer_index );
 	}
@@ -84,7 +90,22 @@ void GameManager::rozdanie() {
 }
 
 void GameManager::play() {
+	while( grajacych( 1 ).size() > 1 ) {
+		rozdanie();
+	}
 
+	for( unsigned int i = 0; i < playerList.size(); i++ ) {
+		std::cout << "Gracz: ";
+		playerList.at( i ).player.przedstawSie();
+		std::cout << " wygral " << playerList.at( i ).wygrane << " i koncowo ";
+		if( playerList.at( i ).stan == Niegra ) {
+			std::cout << "WYGRAL STARCIE!!!XD" << std::endl;
+		}
+		else {
+			std::cout << " przegral gre :((" << std::endl;
+		}
+	}
+	
 }
 
 void GameManager::runda( int zaczyna ) {
@@ -126,7 +147,12 @@ void GameManager::runda( int zaczyna ) {
 		}
 	}
 	if( stol.cardsOnTable.size() == 5 ) {
-		whoWon(); //metoda wskazuje tego dobrego a reszte pasuje;
+		Gracz *gracz_ptr = whoWon();
+		std::cout << "Wygral gracz ";
+		gracz_ptr->player.przedstawSie();
+		std::cout << " jego bilans " << gracz_ptr->money << std::endl << std::endl;
+		gracz_ptr->wygrane++;
+			//metoda wskazuje tego dobrego a reszte pasuje;
 	}
 }
 
