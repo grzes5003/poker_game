@@ -52,9 +52,10 @@ void GameManager::zmienWlasnosci(int index, int odzywka ) { //modyfikuje wartosc
 	}
 }
 
-GameManager::GameManager( std::vector<Gracz> _playerList ) : playerList(_playerList) {
+GameManager::GameManager( std::vector<Gracz> _playerList, int _minpool ) : playerList(_playerList) {
 	begginer_index = 0;
-	
+	stol.minpool = _minpool;
+
 	//karty_generate;
 	for( unsigned int i = 0; i < 4; i++ ) {
 		for( unsigned int x = 0; x < 14; x++ ) {
@@ -66,7 +67,8 @@ GameManager::GameManager( std::vector<Gracz> _playerList ) : playerList(_playerL
 
 void GameManager::rozdanie() {
 	//int numerPrzejscia = 0; //ile bylo przeprowadzonych przejsc - wskazuje czy trza dodac nowe karty
-	
+
+
 	for( int i = 0; i<100000; ++i ) {
 		int index1 = rand() % cardsList.size();
 		int index2 = rand() % cardsList.size();
@@ -90,8 +92,14 @@ void GameManager::rozdanie() {
 }
 
 void GameManager::play() {
+	int ile_rozdan = 0;
+
 	while( grajacych( 1 ).size() > 1 ) {
+		if( ile_rozdan == 3 ) {
+			stol.minpool *= 2;
+		}
 		rozdanie();
+		ile_rozdan++;
 	}
 
 	for( unsigned int i = 0; i < playerList.size(); i++ ) {

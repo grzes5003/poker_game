@@ -21,7 +21,7 @@ class GameManager
 	std::vector<Gracz> playerList; //gracz, hajs, jego karty;
 	std::vector<Card> cardsList;
 public:
-	GameManager( std::vector<Gracz> _playerList );
+	GameManager( std::vector<Gracz> _playerList, int minpool );
 	void rozdanie(); //jedna runda
 	void play(); //ogolna metoda grajaca
 	void runda( int zaczyna );

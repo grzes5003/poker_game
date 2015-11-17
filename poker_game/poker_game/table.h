@@ -15,6 +15,7 @@ public:
 	
 	void reset();
 
+	Table(int _minpool);
 	Table();
 	virtual ~Table();
 };
