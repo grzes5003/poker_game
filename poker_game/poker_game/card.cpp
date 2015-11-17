@@ -12,3 +12,7 @@ std::pair<Card::Kolor, Card::Figura> Card::wartosc() {
 
 Card::~Card() {
 }
+
+const bool & Card::operator==(const Card & forg ) {
+	return (this->wartosc().second == forg.figura) ? true : false;
+}

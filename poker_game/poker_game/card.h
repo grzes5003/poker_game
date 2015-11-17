@@ -8,11 +8,12 @@ class Card
 	
 public:
 	enum Kolor{Pik = 0,Kier = 1,Trefl = 2,Karo = 3};
-	enum Figura { As = 0, Dwa = 2, Trzy = 3, Cztery = 4, Piec = 5, Szesc = 6, Siedem = 7, Osiem = 8, Dziewiec = 9, Dziesiec = 10, Walet = 11, Dama = 12, Krol = 13 };
+	enum Figura { Dwa = 1, Trzy = 2, Cztery = 3, Piec = 4, Szesc = 5, Siedem = 6, Osiem = 7, Dziewiec = 8, Dziesiec = 9, Walet = 10, Dama = 11, Krol = 12, As = 13 };
 	
 	Card(Kolor _kolor,Figura _figura);
 	std::pair<Kolor, Figura> wartosc();
 	virtual ~Card();
+	const bool &operator==( const Card &forg );
 private:
 	const Kolor kolor;
 	const Figura figura;
