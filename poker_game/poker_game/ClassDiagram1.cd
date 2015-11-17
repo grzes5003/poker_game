@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Player">
+    <Position X="0.75" Y="1" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAQAAAAAAAAAAAAAAAAAAAAABAAAAAAQAAABA=</HashCode>
+      <FileName>player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Table">
+    <Position X="3.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEEAAAAAAAgAAAAQAAAAACABAAAAAgAAAAAAAA=</HashCode>
+      <FileName>table.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager">
+    <Position X="6.25" Y="0.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="GameManager::stanGry" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>gameManager.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+      <Struct Name="GameManager::Gracz" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>gameManager.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AQgAAAAAQAAAAAQAAAAAAAAgAgCAAQAEAAAAAABQAgA=</HashCode>
+      <FileName>gameManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
