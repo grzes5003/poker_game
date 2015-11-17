@@ -164,7 +164,7 @@ void GameManager::runda( int zaczyna ) {
 	}
 }
 
-std::vector<GameManager::Gracz> GameManager::grajacych(unsigned int m) { //jesli 0 - sprawdza pasowanych i nie grajacych, jesli 1 sprawdza nie grajacych
+std::vector<GameManager::Gracz> GameManager::grajacych(unsigned int m) { //jesli 0 - sprawdza pasowanych i nie grajacych, jesli 1 sprawdza nie grajacych, 
 	int indeks_osoby_sprawdzanej = 0;
 	std::vector<Gracz> players_playing_list;
 	if( m == 0 ) {
@@ -205,6 +205,12 @@ GameManager::Gracz* GameManager::whoWon() {
 		int score;
 	};
 	std::vector<Kandydat> kandydat_tab;
+	std::vector<Gracz> gracz_tab = grajacych( 0 );
+	unsigned int pomoc1; unsigned int pomoc2;
+	Card::Figura *karta;
+	for( unsigned int i = 0; i < gracz_tab.size(); i++) {
+		
+	}
 }
 
 void GameManager::wybierzZaczynajacego() {
@@ -217,7 +223,34 @@ void GameManager::wybierzZaczynajacego() {
 }
 
 void GameManager::rozdajKarty() {
+	bool ma_karty;
+	for( int i = 0; i < playerList.size(); i++ ) {
+		if( !playerList.at( i ).karty.empty() )
+			ma_karty = true;
+		else
+			ma_karty = false;
+	}
+	if( ma_karty ) {
+		switch( stol.cardsOnTable.size() ) {
+		case 0:
+			stol.cardsOnTable.push_back( cardsList.at( 0 ) );
+			stol.cardsOnTable.push_back( cardsList.at( 1 ) );
+			stol.cardsOnTable.push_back( cardsList.at( 2 ) );
+			break;
+		case 3:
+			stol.cardsOnTable.push_back( cardsList.at( 3 ) );
+			stol.cardsOnTable.push_back( cardsList.at( 4 ) );
+			break;
+		}
+	}
+	else if(!ma_karty ) {
+		for( int i = 5, int x = 0; i < playerList.size() + 5; i++, x++ ) {
+			playerList.at( i ).karty.push_back( cardsList.at( i ) );
+			playerList.at( i ).karty.push_back( cardsList.at( i + playerList.size() ));
+		}
+	}
 }
+
 
 
 GameManager::~GameManager() {

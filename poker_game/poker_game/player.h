@@ -4,6 +4,7 @@
 
 class Player
 {
+	std::pair<Card, Card> karty;
 	//zapisuj sb swoje karty jak chcesz
 public:
 	virtual int odzywka( Table stol ); //-1=pass,0=call,jakas kwota=raise;

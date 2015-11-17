@@ -4,6 +4,7 @@ int Player::odzywka( Table stol ) {
 }
 
 void Player::zobaczKarty( std::pair<Card, Card> para ) {
+	karty = para;
 }
 
 Player::Player() {
