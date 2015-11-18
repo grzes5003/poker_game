@@ -1,5 +1,5 @@
 #include "gameManager.h"
-
+#include "player.h"
 
 
 void GameManager::zmienWlasnosci(int index, int odzywka ) { //modyfikuje wartosci; -1 pass; 0 rownaj; 0++ konkretna kwota;
@@ -25,7 +25,7 @@ void GameManager::zmienWlasnosci(int index, int odzywka ) { //modyfikuje wartosc
 			}
 			else {
 				std::cout << "Gracz ";
-				playerList.at( index ).player.przedstawSie();
+				playerList.at( index ).player->przedstawSie();
 				std::cout << "podaje zla kwote licytacyjna: jest za mala" << std::endl;
 				playerList.at( index ).stan = Niegra;
 			}
@@ -44,7 +44,7 @@ void GameManager::zmienWlasnosci(int index, int odzywka ) { //modyfikuje wartosc
 			}
 			else {
 				std::cout << "Zla kwota wejscia w ciemno gracza ";
-				playerList.at( index ).player.przedstawSie();
+				playerList.at( index ).player->przedstawSie();
 				std::cout << ": kwota zbyt mala a gracz nie gra vabank! Dyskwalifikacja" << std::endl;
 				playerList.at( index ).stan = Niegra;
 			}
@@ -52,7 +52,7 @@ void GameManager::zmienWlasnosci(int index, int odzywka ) { //modyfikuje wartosc
 	}
 }
 
-GameManager::GameManager( std::vector<Player> _playerList, int _minpool )  {
+GameManager::GameManager( std::vector<Player*> _playerList, int _minpool )  {
 	begginer_index = 0;
 	stol.minpool = _minpool;
 	Gracz gracz = {};
@@ -140,7 +140,7 @@ void GameManager::play() {
 
 	for( unsigned int i = 0; i < playerList.size(); i++ ) {
 		std::cout << "Gracz: ";
-		playerList.at( i ).player.przedstawSie();
+		playerList.at( i ).player->przedstawSie();
 		std::cout << " wygral " << playerList.at( i ).wygrane << " i koncowo ";
 		if( playerList.at( i ).stan == Niegra ) {
 			std::cout << "WYGRAL STARCIE!!!XD" << std::endl;
@@ -157,11 +157,11 @@ void GameManager::runda( int zaczyna ) {
 	std::vector<Gracz> *pgracze;
 	int zaczyna_pierw = zaczyna;
 	if( stol.cardsOnTable.size() == 0 && stol.pool == 0 ) { ///pierwszy ziomek licytuje w ciemno
-		zmienWlasnosci( zaczyna, grajacych(0).at( zaczyna ).player.odzywka( stol ) );
+		zmienWlasnosci( zaczyna, grajacych(0).at( zaczyna ).player->odzywka( stol ) );
 		zaczyna++;
 	}
 	else if( stol.cardsOnTable.size() == 0 && stol.pool != 0 ) { ///drugi ziomek licytuje w ciemno
-		zmienWlasnosci( zaczyna, grajacych(0).at( zaczyna ).player.odzywka( stol ) );
+		zmienWlasnosci( zaczyna, grajacych(0).at( zaczyna ).player->odzywka( stol ) );
 		zaczyna++;
 		//
 		rozdajKarty(); //rozdaj gracza
@@ -171,11 +171,11 @@ void GameManager::runda( int zaczyna ) {
 			pgracze = &grajacych(0);
 			for( unsigned int i = 0; i < pgracze->size() - 2; i++ ) { ///reszta licytuje w pol ciemno xd
 				if( zaczyna < pgracze-> size() ) {
-					zmienWlasnosci( zaczyna, pgracze->at( zaczyna ).player.odzywka( stol ) );
+					zmienWlasnosci( zaczyna, pgracze->at( zaczyna ).player->odzywka( stol ) );
 					zaczyna++;
 				}
 				else if( zaczyna >= pgracze->size() - 1 ) {
-					zmienWlasnosci( z, pgracze->at( z ).player.odzywka( stol ) );
+					zmienWlasnosci( z, pgracze->at( z ).player->odzywka( stol ) );
 					z++;
 				}
 			}
@@ -187,14 +187,14 @@ void GameManager::runda( int zaczyna ) {
 	if( stol.cardsOnTable.size() == 3 ) {
 		pgracze = &grajacych(0);
 		for( unsigned int i = 0; i < pgracze->size(); i++ ) {
-			zmienWlasnosci( i, pgracze->at( i ).player.odzywka( stol ) );
+			zmienWlasnosci( i, pgracze->at( i ).player->odzywka( stol ) );
 		}
 	}
 	
 	if( stol.cardsOnTable.size() == 5 ) {
 		Gracz *gracz_ptr = &whoWon();
 		std::cout << "Wygral gracz ";
-		gracz_ptr->player.przedstawSie();
+		gracz_ptr->player->przedstawSie();
 		std::cout << " jego bilans " << gracz_ptr->money << std::endl << std::endl;
 		gracz_ptr->wygrane++;
 
@@ -233,6 +233,7 @@ std::vector<GameManager::Gracz> GameManager::grajacych(unsigned int m) { //jesli
 	}
 	else {
 		std::cout << "error: grajacy nie zwraca wartosci: zly arg" << std::endl;
+		return std::vector<Gracz>();
 	}
 }
 
@@ -245,21 +246,28 @@ GameManager::Gracz& GameManager::whoWon() {
 	std::vector<Kandydat> kandydat_tab;
 	std::vector<Gracz> gracz_tab = grajacych( 0 );
 	
+	std::vector<Card> cale_karty; cale_karty.reserve( stol.cardsOnTable.size() + 2 );
+
 	unsigned int pomoc1; unsigned int pomoc2;
 	std::vector<Card::Figura> karta;
 	for( unsigned int i = 0; i < stol.cardsOnTable.size(); i++ ) {
 		karta.push_back( stol.cardsOnTable.at( i ).wartosc().second );
+		cale_karty.push_back( stol.cardsOnTable.at( i ));
 	}
+
+
 
 	for( unsigned int i = 0; i < gracz_tab.size(); i++) {
 
 		pomoc1 = gracz_tab.at( i ).karty.at( 0 ).wartosc().second;
 		pomoc2 = gracz_tab.at( i ).karty.at( 1 ).wartosc().second;
 
-		std::vector<Card> cale_karty; cale_karty.reserve( stol.cardsOnTable.size() + gracz_tab.at( i ).karty.size() );
+		cale_karty.push_back( gracz_tab.at( i ).karty.at( 0 ) );
+		cale_karty.push_back( gracz_tab.at( i ).karty.at( 1 ) );
+		
 		///TUTAJ PROBLEM Z KOMPILEM
-		cale_karty.insert( cale_karty.end(), stol.cardsOnTable.begin(), stol.cardsOnTable.end() );
-		cale_karty.insert( cale_karty.end(), gracz_tab.begin(), gracz_tab.end() );
+		
+		//cale_karty.insert( cale_karty.end(), gracz_tab.begin(), gracz_tab.end() );
 		///END
 		std::vector<Card::Figura> fCale_karty; 
 		for( unsigned int i = 0; i < cale_karty.size(); i++ ) {
@@ -319,6 +327,7 @@ GameManager::Gracz& GameManager::whoWon() {
 			//lol nie dostal
 			kandydat_tab.at( i ).score = 0;
 		}
+		cale_karty.clear();
 		//
 	}
 	std::vector<int> tab;

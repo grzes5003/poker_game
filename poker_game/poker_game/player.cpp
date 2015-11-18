@@ -11,6 +11,9 @@ void Player::zobaczKarty( std::pair<Card, Card> para ) {
 Player::Player() {
 }
 
+void Player::przedstawSie() {
+}
+
 
 Player::~Player() {
 }

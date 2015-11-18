@@ -122,12 +122,14 @@
     <ClCompile Include="gameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="player.cpp" />
+    <ClCompile Include="playerexamp.cpp" />
     <ClCompile Include="table.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="card.h" />
     <ClInclude Include="gameManager.h" />
     <ClInclude Include="player.h" />
+    <ClInclude Include="playerexamp.h" />
     <ClInclude Include="table.h" />
   </ItemGroup>
   <ItemGroup>

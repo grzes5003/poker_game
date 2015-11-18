@@ -1,12 +1,11 @@
 #pragma once
-#include "table.h"
-#include "player.h"
+#include "playerexamp.h"
 #include <algorithm>
 #include <array>
 
 namespace por {
 
-	std::pair<int,int> ileTychSamych( std::vector<Card> tab ) {
+	inline std::pair<int,int> ileTychSamych( std::vector<Card> tab ) {
 		//pierwszy - co?
 		//drugi:
 		//if null = 0; if jedna = 1; if 2 = 2; itp 
@@ -35,7 +34,7 @@ namespace por {
 		return std::pair<int, int>( co, ile );
 	}
 	
-	std::pair<int, int> ileTychSamych_bez( std::vector<Card> tab, Card::Figura bez_czego ) {
+	inline std::pair<int, int> ileTychSamych_bez( std::vector<Card> tab, Card::Figura bez_czego ) {
 		//pierwszy - co?
 		//drugi:
 		//if null = 0; if jedna = 1; if 2 = 2; itp 
@@ -66,7 +65,7 @@ namespace por {
 		return std::pair<int, int>( co, ile );
 	}
 	
-	Card::Figura maxV( std::vector<Card::Figura> gdzie ) { //POWINNO DZIALAC
+	inline Card::Figura maxV( std::vector<Card::Figura> gdzie ) { //POWINNO DZIALAC
 		for( unsigned int i = 0; i < gdzie.size() - 1; i++ ) {
 			if( gdzie.at( i ) > gdzie.at( i + 1 ) ) {
 				std::swap( gdzie.at( i ), gdzie.at( i + 1 ) );
@@ -75,7 +74,7 @@ namespace por {
 		return gdzie.at( gdzie.size() + 1 );
 	}
 
-	std::vector<Card::Figura> fsort( std::vector<Card::Figura> &gdzie ) {
+	inline std::vector<Card::Figura> fsort( std::vector<Card::Figura> &gdzie ) {
 		for( unsigned int i = 0; i < gdzie.size() - 1; i++ ) {
 			if( gdzie.at( i ) > gdzie.at( i + 1 ) ) {
 				std::swap( gdzie.at( i ), gdzie.at( i + 1 ) );
@@ -84,7 +83,7 @@ namespace por {
 		return gdzie;
 	}
 
-	std::vector<Card> csort( std::vector<Card>& gdzie ) {
+	inline std::vector<Card> csort( std::vector<Card>& gdzie ) {
 		for( unsigned int i = 0; i < gdzie.size() - 1; i++ ) {
 			if( gdzie.at( i ).wartosc().second > gdzie.at( i + 1 ).wartosc().second ) {
 				std::swap( gdzie.at( i ), gdzie.at( i + 1 ) );
@@ -94,7 +93,7 @@ namespace por {
 	}
 
 	template<class T> //t kandydat
-	T ksort( std::vector<T> &gdzie, std::vector<int> tab){
+	inline T ksort( std::vector<T> &gdzie, std::vector<int> tab){
 		
 		for( unsigned int i = 0; i < gdzie.size()-1; i++ ) {
 			if( tab.at( i ) > tab.at( i + 1 ) ) {
@@ -111,7 +110,7 @@ class GameManager
 	Table stol;
 
 	struct Gracz {
-		Player player;
+		Player *player;
 		int money;
 		std::vector<Card> karty;
 		stanGry stan;
@@ -134,7 +133,7 @@ class GameManager
 	void rozdajKarty();
 	bool isFigura( Card::Figura jaka, std::vector<Card::Figura> gdzie );
 public:
-	GameManager( std::vector<Player> _playerList, int minpool );
+	GameManager( std::vector<Player*> _playerList, int minpool );
 	void play(); //ogolna metoda grajaca
 
 	virtual ~GameManager();
