@@ -76,15 +76,29 @@ GameManager::GameManager( std::vector<Player> _playerList, int _minpool )  {
 }
 
 void GameManager::reset() {
-	for( unsigned int i = 0; i < 4; i++ ) {
+	/*for( unsigned int i = 0; i < 4; i++ ) {
 		for( unsigned int x = 0; x < 14; x++ ) {
 			cardsList.push_back( Card( Card::Kolor( i ), Card::Figura( x ) ) );
 		}
-	}
-	stol.reset();
+	}*/
+	std::vector<Card> karty;
 	for( unsigned int i = 0; i < playerList.size(); i++ ) {
+		karty.push_back( playerList.at( i ).karty.at( 0 ) );
+		karty.push_back( playerList.at( i ).karty.at( 1 ) );
+		cardsList.push_back( karty.at( 0 ) );
+		cardsList.push_back( karty.at( 1 ) );
+		
+		karty.clear();
 		playerList.at( i ).karty.clear();
+
 	}
+	cardsList.push_back( stol.cardsOnTable.at(0) );
+	cardsList.push_back( stol.cardsOnTable.at(1) );
+	cardsList.push_back( stol.cardsOnTable.at(2) );
+	cardsList.push_back( stol.cardsOnTable.at(3) );
+	cardsList.push_back( stol.cardsOnTable.at(4) );
+
+	stol.reset();
 }
 
 void GameManager::rozdanie() {
@@ -243,9 +257,10 @@ GameManager::Gracz& GameManager::whoWon() {
 		pomoc2 = gracz_tab.at( i ).karty.at( 1 ).wartosc().second;
 
 		std::vector<Card> cale_karty; cale_karty.reserve( stol.cardsOnTable.size() + gracz_tab.at( i ).karty.size() );
+		///TUTAJ PROBLEM Z KOMPILEM
 		cale_karty.insert( cale_karty.end(), stol.cardsOnTable.begin(), stol.cardsOnTable.end() );
 		cale_karty.insert( cale_karty.end(), gracz_tab.begin(), gracz_tab.end() );
-
+		///END
 		std::vector<Card::Figura> fCale_karty; 
 		for( unsigned int i = 0; i < cale_karty.size(); i++ ) {
 			fCale_karty.push_back( cale_karty.at( i ).wartosc().second );
