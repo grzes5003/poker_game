@@ -52,23 +52,44 @@ void GameManager::zmienWlasnosci(int index, int odzywka ) { //modyfikuje wartosc
 	}
 }
 
-GameManager::GameManager( std::vector<Gracz> _playerList, int _minpool ) : playerList(_playerList) {
+GameManager::GameManager( std::vector<Player> _playerList, int _minpool )  {
 	begginer_index = 0;
 	stol.minpool = _minpool;
+	Gracz gracz = {};
+	for( unsigned int i = 0; i < _playerList.size(); i++ ) {
+		gracz.karty = std::vector<Card>();
+		gracz.money = 100;
+		gracz.player = _playerList.at( i );
+		gracz.stan = Gra;
+		playerList.push_back(gracz);
+	}
+		
+	
 
 	//karty_generate;
 	for( unsigned int i = 0; i < 4; i++ ) {
 		for( unsigned int x = 0; x < 14; x++ ) {
-			cardsList.push_back( Card( static_cast<Card::Kolor>(i), static_cast<Card::Figura>(x) ) );
+			cardsList.push_back( Card( Card::Kolor(i), Card::Figura(x) ) );
 		}
 	}
 
 }
 
+void GameManager::reset() {
+	for( unsigned int i = 0; i < 4; i++ ) {
+		for( unsigned int x = 0; x < 14; x++ ) {
+			cardsList.push_back( Card( Card::Kolor( i ), Card::Figura( x ) ) );
+		}
+	}
+	stol.reset();
+	for( unsigned int i = 0; i < playerList.size(); i++ ) {
+		playerList.at( i ).karty.clear();
+	}
+}
+
 void GameManager::rozdanie() {
-	//int numerPrzejscia = 0; //ile bylo przeprowadzonych przejsc - wskazuje czy trza dodac nowe karty
 
-
+	//Tasowanie
 	for( int i = 0; i<100000; ++i ) {
 		int index1 = rand() % cardsList.size();
 		int index2 = rand() % cardsList.size();
@@ -87,7 +108,8 @@ void GameManager::rozdanie() {
 		else
 			playerList.at( i ).stan = Gra;
 	}
-	
+
+	reset();
 	wybierzZaczynajacego();
 }
 
@@ -132,7 +154,7 @@ void GameManager::runda( int zaczyna ) {
 		//
 		int z = 0; //index tych sprawdzanych od dolu (po przekroczeniu indexow)
 		if( grajacych(0).size() > 2 ) {
-			*pgracze = grajacych(0);
+			pgracze = &grajacych(0);
 			for( unsigned int i = 0; i < pgracze->size() - 2; i++ ) { ///reszta licytuje w pol ciemno xd
 				if( zaczyna < pgracze-> size() ) {
 					zmienWlasnosci( zaczyna, pgracze->at( zaczyna ).player.odzywka( stol ) );
@@ -149,17 +171,19 @@ void GameManager::runda( int zaczyna ) {
 	///licytacja ponownie
 	//nwm co jesli jest tlk 2 licytujacych
 	if( stol.cardsOnTable.size() == 3 ) {
-		*pgracze = grajacych(0);
+		pgracze = &grajacych(0);
 		for( unsigned int i = 0; i < pgracze->size(); i++ ) {
 			zmienWlasnosci( i, pgracze->at( i ).player.odzywka( stol ) );
 		}
 	}
+	
 	if( stol.cardsOnTable.size() == 5 ) {
-		Gracz *gracz_ptr = whoWon();
+		Gracz *gracz_ptr = &whoWon();
 		std::cout << "Wygral gracz ";
 		gracz_ptr->player.przedstawSie();
 		std::cout << " jego bilans " << gracz_ptr->money << std::endl << std::endl;
 		gracz_ptr->wygrane++;
+
 			//metoda wskazuje tego dobrego a reszte pasuje;
 	}
 }
@@ -321,7 +345,7 @@ void GameManager::rozdajKarty() {
 		}
 	}
 	else if(!ma_karty ) {
-		for( int i = 5, int x = 0; i < playerList.size() + 5; i++, x++ ) {
+		for( int i = 5; i < playerList.size() + 5; i++) {
 			playerList.at( i ).karty.push_back( cardsList.at( i ) );
 			playerList.at( i ).karty.push_back( cardsList.at( i + playerList.size() ));
 		}
@@ -335,9 +359,6 @@ bool GameManager::isFigura( Card::Figura jaka, std::vector<Card::Figura> gdzie )
 	}
 	return false;
 }
-
-
-
 
 GameManager::~GameManager() {
 }

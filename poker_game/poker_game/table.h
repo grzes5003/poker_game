@@ -1,6 +1,5 @@
 #pragma once
 #include "card.h"
-#include "player.h"
 #include <vector>
 
 class Table

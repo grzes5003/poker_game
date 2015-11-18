@@ -1,7 +1,10 @@
 #include "card.h"
 
 Card::Card( Kolor _kolor, Figura _figura ) : kolor(_kolor), figura(_figura) {
-	isVisible = false;
+	isVisible = true;
+}
+
+Card::Card() : kolor(Pik), figura(As) {
 }
 
 std::pair<Card::Kolor, Card::Figura> Card::wartosc() {
@@ -13,6 +16,15 @@ std::pair<Card::Kolor, Card::Figura> Card::wartosc() {
 Card::~Card() {
 }
 
-const bool & Card::operator==(const Card & forg ) {
-	return (this->wartosc().second == forg.figura) ? true : false;
+bool Card::operator==( const Card & a ) const {
+	return (this->figura == a.figura)? true : false;
+}
+
+bool Card::operator==( const Figura & a ) const {
+	return (this->figura == a) ? true : false;
+}
+
+
+Card & Card::operator=( const Card & forg ) {
+	return *this;
 }

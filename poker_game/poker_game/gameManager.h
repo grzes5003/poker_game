@@ -1,5 +1,6 @@
 #pragma once
 #include "table.h"
+#include "player.h"
 #include <algorithm>
 #include <array>
 
@@ -12,21 +13,21 @@ namespace por {
 		//if ten sam kolor i ile -> na minusie ta liczba
 		int co; int ile;
 		for( unsigned int i = 13; i > 0; i-- ) {
-			if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 1 ) {
+			if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 1 ) {
 				co = i; ile = 1;
 			}
-			else if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 0 ) {
+			else if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 0 ) {
 				co = i; ile = 0;
 			}
-			if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 4 ) {
+			if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 4 ) {
 				co = i; ile = 4;
 				break;
 			}
-			else if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 3 ) {
+			else if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 3 ) {
 				co = i; ile = 3;
 				break;
 			}
-			else if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 2 ) {
+			else if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 2 ) {
 				co = i; ile = 2;
 				break;
 			}
@@ -42,21 +43,21 @@ namespace por {
 		int co; int ile;
 		for( unsigned int i = 13; i > 0; i-- ) {
 			if( i != static_cast<Card::Figura>(bez_czego) ) {
-				if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 1 ) {
+				if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 1 ) {
 					co = i; ile = 1;
 				}
-				else if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 0 ) {
+				else if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 0 ) {
 					co = i; ile = 0;
 				}
-				if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 4 ) {
+				if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 4 ) {
 					co = i; ile = 4;
 					break;
 				}
-				else if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 3 ) {
+				else if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 3 ) {
 					co = i; ile = 3;
 					break;
 				}
-				else if( std::count( tab.begin(), tab.end(), static_cast<Card::Figura>(i) ) == 2 ) {
+				else if( std::count( tab.begin(), tab.end(), Card::Figura(i) ) == 2 ) {
 					co = i; ile = 2;
 					break;
 				}
@@ -93,14 +94,14 @@ namespace por {
 	}
 
 	template<class T> //t kandydat
-	std::vector<T> ksort( std::vector<T> &gdzie, std::vector<int> tab){
+	T ksort( std::vector<T> &gdzie, std::vector<int> tab){
 		
 		for( unsigned int i = 0; i < gdzie.size()-1; i++ ) {
 			if( tab.at( i ) > tab.at( i + 1 ) ) {
 				std::swap( gdzie.at( i ), gdzie.at( i + 1 ) );
 			}
 		}
-		return gdzie.at( gdzie.end() );
+		return gdzie.at( gdzie.size()-1 );
 	}
 }
 
@@ -121,9 +122,10 @@ class GameManager
 
 	int begginer_index; // index typa ktory ma zaczynac dana licytacje;
 	
-	std::vector<Gracz> playerList; //gracz, hajs, jego karty;
+	std::vector<Gracz> playerList; 
 	std::vector<Card> cardsList;
 	
+	void reset();
 	void rozdanie(); //jedna runda
 	void runda( int zaczyna );
 	std::vector<Gracz> grajacych(unsigned int m );
@@ -132,7 +134,7 @@ class GameManager
 	void rozdajKarty();
 	bool isFigura( Card::Figura jaka, std::vector<Card::Figura> gdzie );
 public:
-	GameManager( std::vector<Gracz> _playerList, int minpool );
+	GameManager( std::vector<Player> _playerList, int minpool );
 	void play(); //ogolna metoda grajaca
 
 	virtual ~GameManager();
