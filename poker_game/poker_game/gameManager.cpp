@@ -130,7 +130,9 @@ void GameManager::rozdanie() {
 void GameManager::play() {
 	int ile_rozdan = 0;
 
-	while( grajacych( 1 ).size() > 1 ) {
+	std::cout << "zaczynamy " << playerList.size() << std::endl;
+	while( grajacych( 0 ).size() > 1 ) {
+		
 		if( ile_rozdan == 3 ) {
 			stol.minpool *= 2;
 		}
@@ -165,6 +167,7 @@ void GameManager::runda( int zaczyna ) {
 		zaczyna++;
 		//
 		rozdajKarty(); //rozdaj gracza
+		std::cout << "rozdano karty gracza" << std::endl;
 		//
 		int z = 0; //index tych sprawdzanych od dolu (po przekroczeniu indexow)
 		if( grajacych(0).size() > 2 ) {
@@ -181,10 +184,13 @@ void GameManager::runda( int zaczyna ) {
 			}
 		}
 		rozdajKarty(); //rozdaje na stol pierwsze 3
+		std::cout << "rozdano na stol pierwsze 3 karty!!!" << std::endl;
 	}
 	///licytacja ponownie
 	//nwm co jesli jest tlk 2 licytujacych
 	if( stol.cardsOnTable.size() == 3 ) {
+		rozdajKarty();
+		std::cout << "rozdano na stol nastepne 2 karty" << std::endl;
 		pgracze = &grajacych(0);
 		for( unsigned int i = 0; i < pgracze->size(); i++ ) {
 			zmienWlasnosci( i, pgracze->at( i ).player->odzywka( stol ) );
@@ -208,7 +214,7 @@ std::vector<GameManager::Gracz> GameManager::grajacych(unsigned int m) { //jesli
 	if( m == 0 ) {
 		
 		while( playerList.size() > indeks_osoby_sprawdzanej ) {
-			if( playerList.at( indeks_osoby_sprawdzanej ).stan != Gra ) {
+			if( playerList.at( indeks_osoby_sprawdzanej ).stan == Gra ) {
 				players_playing_list.push_back( playerList.at( indeks_osoby_sprawdzanej ) );
 				indeks_osoby_sprawdzanej++;
 			}
@@ -370,8 +376,8 @@ void GameManager::rozdajKarty() {
 	}
 	else if(!ma_karty ) {
 		for( int i = 5; i < playerList.size() + 5; i++) {
-			playerList.at( i ).karty.push_back( cardsList.at( i ) );
-			playerList.at( i ).karty.push_back( cardsList.at( i + playerList.size() ));
+			playerList.at( i - 5 ).karty.push_back( cardsList.at( i ) );
+			playerList.at( i - 5 ).karty.push_back( cardsList.at( i + playerList.size() ));
 		}
 	}
 }

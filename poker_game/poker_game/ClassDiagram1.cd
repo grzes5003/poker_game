@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Player" Collapsed="true">
-    <Position X="1.25" Y="3.5" Width="1.75" />
+  <Class Name="Player">
+    <Position X="1" Y="2.5" Width="1.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAAEAQAAAAAAAAAAAAAAAAAAAAABAAAAAAQAAIBA=</HashCode>
+      <HashCode>AAAAAAEAQAAAAAAAAAAAAAAAAAAAAABAIAAAAQAAABA=</HashCode>
       <FileName>player.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -19,18 +19,6 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Enum Name="GameManager::stanGry" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>gameManager.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-      <Struct Name="GameManager::Gracz" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>gameManager.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Struct>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AQgAAAAEQAACAAQAAAAAAAAgAgCAAQAEAAAAAIBQAgA=</HashCode>
       <FileName>gameManager.h</FileName>
@@ -41,27 +29,15 @@
     <Compartments>
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Enum Name="Card::Kolor" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>card.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-      <Enum Name="Card::Figura" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>card.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Enum>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AABAAAAgABAAAAAAAAAAAQAAAAAAAAAAgBAgAAAAAAA=</HashCode>
       <FileName>card.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="PlayerExamp" Collapsed="true">
-    <Position X="1.5" Y="2.25" Width="1.5" />
+  <Class Name="PlayerExamp">
+    <Position X="4.5" Y="4" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAABAAAEAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAEAAAAIAAAAAAAAAAAAAAAAAABAAAEAAAAAAAA=</HashCode>
       <FileName>playerexamp.h</FileName>
     </TypeIdentifier>
   </Class>

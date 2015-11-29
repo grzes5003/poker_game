@@ -1,7 +1,6 @@
 #pragma once
 #include "playerexamp.h"
 #include <algorithm>
-#include <array>
 
 namespace por {
 
