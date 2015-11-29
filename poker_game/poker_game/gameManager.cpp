@@ -247,103 +247,7 @@ std::vector<GameManager::Gracz> GameManager::grajacych(unsigned int m) { //jesli
 
 //jeszcze mozliwosc ze nikt nie wygral - zostaw hajs na stole;
 GameManager::Gracz& GameManager::whoWon() {
-	struct Kandydat {
-		Gracz* gracz;
-		int score;
-	};
-	std::vector<Kandydat> kandydat_tab;
-	std::vector<Gracz> gracz_tab = grajacych( 0 );
 	
-	std::vector<Card> cale_karty; cale_karty.reserve( stol.cardsOnTable.size() + 2 );
-
-	unsigned int pomoc1; unsigned int pomoc2;
-	std::vector<Card::Figura> karta;
-	for( unsigned int i = 0; i < stol.cardsOnTable.size(); i++ ) {
-		karta.push_back( stol.cardsOnTable.at( i ).wartosc().second );
-		cale_karty.push_back( stol.cardsOnTable.at( i ));
-	}
-
-
-
-	for( unsigned int i = 0; i < gracz_tab.size(); i++) {
-
-		pomoc1 = gracz_tab.at( i ).karty.at( 0 ).wartosc().second;
-		pomoc2 = gracz_tab.at( i ).karty.at( 1 ).wartosc().second;
-
-		cale_karty.push_back( gracz_tab.at( i ).karty.at( 0 ) );
-		cale_karty.push_back( gracz_tab.at( i ).karty.at( 1 ) );
-		
-		///TUTAJ PROBLEM Z KOMPILEM
-		
-		//cale_karty.insert( cale_karty.end(), gracz_tab.begin(), gracz_tab.end() );
-		///END
-		std::vector<Card::Figura> fCale_karty; 
-		for( unsigned int i = 0; i < cale_karty.size(); i++ ) {
-			fCale_karty.push_back( cale_karty.at( i ).wartosc().second );
-		}
-		
-		por::fsort( fCale_karty );
-		por::csort( cale_karty );
-		//if poker krolewski
-		if( isFigura( Card::Figura::As, fCale_karty ) &&
-			isFigura( Card::Figura::Krol, fCale_karty ) &&
-			isFigura( Card::Figura::Dama, fCale_karty ) &&
-			isFigura( Card::Figura::Walet, fCale_karty ) &&
-			isFigura( Card::Figura::Dziesiec, fCale_karty ) ) {
-			if( cale_karty.at( cale_karty.size() - 1 ).wartosc().first == cale_karty.at( cale_karty.size() - 2 ).wartosc().first &&
-				cale_karty.at( cale_karty.size() - 2 ).wartosc().first == cale_karty.at( cale_karty.size() - 3 ).wartosc().first &&
-				cale_karty.at( cale_karty.size() - 3 ).wartosc().first == cale_karty.at( cale_karty.size() - 4 ).wartosc().first &&
-				cale_karty.at( cale_karty.size() - 4 ).wartosc().first == cale_karty.at( cale_karty.size() - 5 ).wartosc().first &&
-				cale_karty.at( cale_karty.size() - 5 ).wartosc().first == cale_karty.at( cale_karty.size() - 6 ).wartosc().first
-				) {
-				kandydat_tab.at( i ).score = 22;
-			}
-		}
-		//if kareta
-		else if( por::ileTychSamych( cale_karty ).second == 4 ) {
-			kandydat_tab.at( i ).score = 21; //nwm ile - zgadywanka
-		}
-		//if full
-		else if( por::ileTychSamych( cale_karty ).second == 3 ) {
-			if( por::ileTychSamych_bez( cale_karty, Card::Figura( por::ileTychSamych( cale_karty ).first ) ).second == 2 ) {
-				kandydat_tab.at( i ).score = 20; //ponownie zgadywanka
-			}
-		}
-		//if kolor
-
-		//if strit
-
-		//if trojka
-		else if( por::ileTychSamych( cale_karty ).second == 3 ) {
-			kandydat_tab.at( i ).score = 17;
-		}
-		//if dwie pary
-		else if( por::ileTychSamych( cale_karty ).second == 2 ) {
-			if( por::ileTychSamych_bez( cale_karty, Card::Figura( por::ileTychSamych( cale_karty ).first ) ).second == 2 )
-				kandydat_tab.at( i ).score = 16;
-		}
-		//if para
-		else if( por::ileTychSamych( cale_karty ).second == 2 )
-			kandydat_tab.at( i ).score = 15;
-		//if ma tlk mocna figure;
-		
-		else if( por::maxV( karta ) > (pomoc1 > pomoc2) ? pomoc1 : pomoc2 ) {
-			pomoc2 = por::maxV( karta );
-			kandydat_tab.at( i ).score = static_cast<Card::Figura>(pomoc2);
-		}
-		else {
-			//lol nie dostal
-			kandydat_tab.at( i ).score = 0;
-		}
-		cale_karty.clear();
-		//
-	}
-	std::vector<int> tab;
-	for( unsigned int i = 0; i < kandydat_tab.size(); i++ ) {
-		tab.push_back( kandydat_tab.at( i ).score );
-	}
-	por::ksort<Kandydat>( kandydat_tab, tab );
-	return *kandydat_tab.at( kandydat_tab.size() - 1 ).gracz;
 }
 
 void GameManager::wybierzZaczynajacego() {
@@ -394,3 +298,104 @@ bool GameManager::isFigura( Card::Figura jaka, std::vector<Card::Figura> gdzie )
 
 GameManager::~GameManager() {
 }
+
+
+//nie patrzec tutaj
+/*
+struct Kandydat {
+Gracz* gracz;
+int score;
+};
+std::vector<Kandydat> kandydat_tab;
+std::vector<Gracz> gracz_tab = grajacych( 0 );
+
+std::vector<Card> cale_karty; cale_karty.reserve( stol.cardsOnTable.size() + 2 );
+
+unsigned int pomoc1; unsigned int pomoc2;
+std::vector<Card::Figura> karta;
+for( unsigned int i = 0; i < stol.cardsOnTable.size(); i++ ) {
+karta.push_back( stol.cardsOnTable.at( i ).wartosc().second );
+cale_karty.push_back( stol.cardsOnTable.at( i ));
+}
+
+
+
+for( unsigned int i = 0; i < gracz_tab.size(); i++) {
+
+pomoc1 = gracz_tab.at( i ).karty.at( 0 ).wartosc().second;
+pomoc2 = gracz_tab.at( i ).karty.at( 1 ).wartosc().second;
+
+cale_karty.push_back( gracz_tab.at( i ).karty.at( 0 ) );
+cale_karty.push_back( gracz_tab.at( i ).karty.at( 1 ) );
+
+///TUTAJ PROBLEM Z KOMPILEM
+
+//cale_karty.insert( cale_karty.end(), gracz_tab.begin(), gracz_tab.end() );
+///END
+std::vector<Card::Figura> fCale_karty;
+for( unsigned int i = 0; i < cale_karty.size(); i++ ) {
+fCale_karty.push_back( cale_karty.at( i ).wartosc().second );
+}
+
+por::fsort( fCale_karty );
+por::csort( cale_karty );
+//if poker krolewski
+if( isFigura( Card::Figura::As, fCale_karty ) &&
+isFigura( Card::Figura::Krol, fCale_karty ) &&
+isFigura( Card::Figura::Dama, fCale_karty ) &&
+isFigura( Card::Figura::Walet, fCale_karty ) &&
+isFigura( Card::Figura::Dziesiec, fCale_karty ) ) {
+if( cale_karty.at( cale_karty.size() - 1 ).wartosc().first == cale_karty.at( cale_karty.size() - 2 ).wartosc().first &&
+cale_karty.at( cale_karty.size() - 2 ).wartosc().first == cale_karty.at( cale_karty.size() - 3 ).wartosc().first &&
+cale_karty.at( cale_karty.size() - 3 ).wartosc().first == cale_karty.at( cale_karty.size() - 4 ).wartosc().first &&
+cale_karty.at( cale_karty.size() - 4 ).wartosc().first == cale_karty.at( cale_karty.size() - 5 ).wartosc().first &&
+cale_karty.at( cale_karty.size() - 5 ).wartosc().first == cale_karty.at( cale_karty.size() - 6 ).wartosc().first
+) {
+kandydat_tab.at( i ).score = 22;
+}
+}
+//if kareta
+else if( por::ileTychSamych( cale_karty ).second == 4 ) {
+kandydat_tab.at( i ).score = 21; //nwm ile - zgadywanka
+}
+//if full
+else if( por::ileTychSamych( cale_karty ).second == 3 ) {
+if( por::ileTychSamych_bez( cale_karty, Card::Figura( por::ileTychSamych( cale_karty ).first ) ).second == 2 ) {
+kandydat_tab.at( i ).score = 20; //ponownie zgadywanka
+}
+}
+//if kolor
+
+//if strit
+
+//if trojka
+else if( por::ileTychSamych( cale_karty ).second == 3 ) {
+kandydat_tab.at( i ).score = 17;
+}
+//if dwie pary
+else if( por::ileTychSamych( cale_karty ).second == 2 ) {
+if( por::ileTychSamych_bez( cale_karty, Card::Figura( por::ileTychSamych( cale_karty ).first ) ).second == 2 )
+kandydat_tab.at( i ).score = 16;
+}
+//if para
+else if( por::ileTychSamych( cale_karty ).second == 2 )
+kandydat_tab.at( i ).score = 15;
+//if ma tlk mocna figure;
+
+else if( por::maxV( karta ) > (pomoc1 > pomoc2) ? pomoc1 : pomoc2 ) {
+pomoc2 = por::maxV( karta );
+kandydat_tab.at( i ).score = static_cast<Card::Figura>(pomoc2);
+}
+else {
+//lol nie dostal
+kandydat_tab.at( i ).score = 0;
+}
+cale_karty.clear();
+//
+}
+std::vector<int> tab;
+for( unsigned int i = 0; i < kandydat_tab.size(); i++ ) {
+tab.push_back( kandydat_tab.at( i ).score );
+}
+por::ksort<Kandydat>( kandydat_tab, tab );
+return *kandydat_tab.at( kandydat_tab.size() - 1 ).gracz;*/
