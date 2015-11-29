@@ -109,7 +109,7 @@ void GameManager::rozdanie() {
 		int index2 = rand() % cardsList.size();
 		std::swap( cardsList.at(index1), cardsList.at(index2) );
 	}
-
+	std::cout << "grajacych " << grajacych( 0 ).size() << "  " << grajacych( 1 ).size() << std::endl;
 	while( grajacych(0).size() > 1 ) {
 		runda( begginer_index );
 	}
@@ -131,6 +131,7 @@ void GameManager::play() {
 	int ile_rozdan = 0;
 
 	std::cout << "zaczynamy " << playerList.size() << std::endl;
+	std::cout << "grajacych " << grajacych(0).size() <<"  " << grajacych( 1 ).size() << std::endl;
 	while( grajacych( 0 ).size() > 1 ) {
 		
 		if( ile_rozdan == 3 ) {
@@ -171,9 +172,9 @@ void GameManager::runda( int zaczyna ) {
 		//
 		int z = 0; //index tych sprawdzanych od dolu (po przekroczeniu indexow)
 		if( grajacych(0).size() > 2 ) {
-			pgracze = &grajacych(0);
+			pgracze = new std::vector<Gracz>(grajacych(0));
 			for( unsigned int i = 0; i < pgracze->size() - 2; i++ ) { ///reszta licytuje w pol ciemno xd
-				if( zaczyna < pgracze-> size() ) {
+				if( zaczyna < (pgracze-> size()) ) {
 					zmienWlasnosci( zaczyna, pgracze->at( zaczyna ).player->odzywka( stol ) );
 					zaczyna++;
 				}
@@ -191,7 +192,7 @@ void GameManager::runda( int zaczyna ) {
 	if( stol.cardsOnTable.size() == 3 ) {
 		rozdajKarty();
 		std::cout << "rozdano na stol nastepne 2 karty" << std::endl;
-		pgracze = &grajacych(0);
+		pgracze = new std::vector<Gracz>( grajacych( 0 ) );
 		for( unsigned int i = 0; i < pgracze->size(); i++ ) {
 			zmienWlasnosci( i, pgracze->at( i ).player->odzywka( stol ) );
 		}
@@ -206,6 +207,7 @@ void GameManager::runda( int zaczyna ) {
 
 			//metoda wskazuje tego dobrego a reszte pasuje;
 	}
+
 }
 
 std::vector<GameManager::Gracz> GameManager::grajacych(unsigned int m) { //jesli 0 - sprawdza pasowanych i nie grajacych, jesli 1 sprawdza nie grajacych, 
