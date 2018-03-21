@@ -1,0 +1,117 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<random>
+#include<ctime>
+
+class Sort {
+	static void merge( std::vector<int> &A, std::vector<int> &B, std::vector<int> &C ) {
+		A.clear();
+
+		int i, j, k;
+		for( i = 0, j = 0, k = 0; i < B.size() && j < C.size(); k++ ) {
+			if( B.at( i ) <= C.at( j ) ) {
+				A.push_back( B.at( i ) );
+				i++;
+			}
+			else if( B.at( i ) > C.at( j ) ) {
+				A.push_back( C.at( j ) );
+				j++;
+			}
+			k++;
+		}
+
+		while( i < B.size() ) {
+			A.push_back( B.at( i ) );
+			i++;
+		}
+
+		while( j < C.size() ) {
+			A.push_back( C.at( j ) );
+			j++;
+		}
+	}
+public:
+	static std::vector<int> insertionsort( std::vector<int> &A ) {
+		int x, j, i = 1;
+		for( ; i < A.size(); i++ ) {
+			x = A.at( i );
+			j = i - 1;
+			while( j >= 0 && A.at( j ) > x ) {
+				A.at( j + 1 ) = A.at( j );
+				j -= 1;
+			}
+			A.at( j + 1 ) = x;
+		}
+		return A;
+	}
+	static std::vector<int> mergesort( std::vector<int> &A ) {
+		if( A.size() > 1 )
+			merge( A, mergesort( std::vector<int>( A.begin(), A.begin() + A.size() / 2 ) ),
+				mergesort( std::vector<int>( A.begin() + A.size() / 2, A.end() ) ) );
+		return A;
+	}
+
+};
+
+class Tests {
+	static std::vector<int> generateVec() {
+		std::random_device dev1, dev2;
+		std::mt19937 gen1( dev1() );
+		std::mt19937 gen2( dev2() );
+		std::uniform_int_distribution<int> dist1( 100,500 );
+		std::uniform_int_distribution<int> dist2( 1, 1000 );
+
+		std::vector<int> vec;
+		for( unsigned int i = 0; i < dist1( gen1 ); i++ ) {
+			vec.push_back( dist2( gen2 ) );
+		}
+		return vec;
+	}
+public:
+	static void compare() {
+		double timeA, timeB;
+		std::vector<int> A = generateVec();
+		std::vector<int> A_control = A, B = A;
+		std::sort( A_control.begin(), A_control.end() );
+		{
+
+			std::clock_t beg = std::clock();
+			Sort::insertionsort( A );
+			clock_t end = clock();
+			timeA  = double( end - beg ) / CLOCKS_PER_SEC;
+		}
+
+		{
+			std::clock_t beg = std::clock();
+			Sort::mergesort( B );
+			clock_t end = clock();
+			timeB = double( end - beg ) / CLOCKS_PER_SEC;
+		}
+		if( A_control == A ) {
+			std::cout << "insertionsort() passed, time elapsed: " << timeA << "\n";
+		}
+		else {
+			std::cout << "insertionsort() not passed\n";
+		}
+		if( A_control == B ) {
+			std::cout << "mergesort() passed, time elapsed: " << timeB << "\n";
+		}
+		else {
+			std::cout << "mergesort() not passed\n";
+		}
+	}
+	static void multTest(int num) {
+		for( size_t i = 0; i < num; i++ ) {
+			std::cout << "Test NUMBER " << i + 1 << std::endl;
+			compare();
+		}
+	}
+};
+
+
+int main() {
+	Tests::multTest( 10 );
+	system( "pause" );
+	return 0;
+}
